@@ -10,4 +10,5 @@ This is the main file that the system runs from.
 from gui import windowOut
 
 if __name__ == "__main__":
+    #C - Opens app window
     windowOut()
