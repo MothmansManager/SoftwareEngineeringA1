@@ -6,13 +6,15 @@ from tkinter import ttk
 import accountScreens
 
 def questScreen():
-
+    #Displays current credit amount at top right
     cashCounter = tk.Label( text = "$25",
                            fg = "black",
                            bg = "pink",
                            font= ("Segoe UI Black", 25))
     cashCounter.place(relx=.9, rely=.05,anchor= CENTER)
+    accountScreens.widgetList.append(cashCounter)
 
+    #Page header
     greeting = tk.Label( text="Todays Quests!",
                         fg = "black",
                         bg = "pink",
@@ -20,7 +22,7 @@ def questScreen():
     greeting.place(relx=.5, rely=.05,anchor= CENTER)
     accountScreens.widgetList.append(greeting)
 
-
+    #Lists quests available
     questOne = tk.Label(text = "This is quest 1!",
                         fg = "black",
                         bg = "pink",
