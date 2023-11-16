@@ -10,6 +10,7 @@ Display page for the shop screen. Here, users can spend earned currency on app c
 
 def shopScreen():
 
+    #----INSERT FUNCTION TO PULL CURRENCY AMOUNT FROM DB----
     cashCounter = tk.Label( text = "$25",
                            fg = "black",
                            bg = "pink",
@@ -17,7 +18,6 @@ def shopScreen():
     cashCounter.place(relx=.9, rely=.05,anchor= CENTER)
     settings.widgetList.append(cashCounter)
 
-    #C - Greeting for when the app is opened
     shopTitle = tk.Label( text="The Shop",
                         fg = "black",
                         bg = "pink",
