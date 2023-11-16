@@ -2,16 +2,16 @@ import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 
-import shopScreen, gui, settings, todoScreen
+import shopScreen, gui, settings, todoScreen, completedQuestsScreen
 
-#creating variable for the background color
-bgColor = settings.bgcolor
+
 
 """
 This creates a nav bar at the bottom of each page outside of account creation/set-up
 """
 def taskbar():
-
+    #creating variable for the background color
+    bgColor = "#ffe2e6"
 
     #creating the taskbar background as a blank label with color bg
     bgBorder = tk.Label(text = "                                                                                                            ",
@@ -24,7 +24,7 @@ def taskbar():
     checkButton = tk.Button(image = check, 
                          bg=bgColor,
                          bd = 0,
-                         command = "")
+                         command = lambda : [gui.clearScreen(settings.widgetList), completedQuestsScreen.completedQuests()])
     checkButton.image = check
     checkButton.place(relx=.15, rely=.92,anchor= CENTER)
     completed = tk.Label( text="Completed",
