@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 
+import shopScreen, gui, settings, todoScreen
+
 """
 This creates a nav bar at the bottom of each page outside of account creation/set-up
 """
@@ -35,7 +37,7 @@ def taskbar():
     homeButton = tk.Button(image = home, 
                          bg=bgColor,
                          bd = 0,
-                         command = "")
+                         command = lambda:  [gui.clearScreen(settings.widgetList), todoScreen.questScreen()])
     homeButton.image = home
     homeButton.place(relx=.5, rely=.92,anchor= CENTER)
     quests = tk.Label( text="Quests",
@@ -49,7 +51,7 @@ def taskbar():
     shopButton = tk.Button(image = shop, 
                          bg=bgColor,
                          bd = 0,
-                         command = "")
+                         command = lambda:  [gui.clearScreen(settings.widgetList), shopScreen.shopScreen()])
     shopButton.image = shop
     shopButton.place(relx=.85, rely=.92,anchor= CENTER)
     store = tk.Label( text="Shop",
