@@ -4,13 +4,14 @@ from tkinter import ttk
 
 import shopScreen, gui, settings, todoScreen
 
+#creating variable for the background color
+bgColor = settings.bgcolor
+
 """
 This creates a nav bar at the bottom of each page outside of account creation/set-up
 """
 def taskbar():
 
-    #color of taskbar background, change this to edit it (hex)
-    bgColor = "#ffe2e6"
 
     #creating the taskbar background as a blank label with color bg
     bgBorder = tk.Label(text = "                                                                                                            ",
