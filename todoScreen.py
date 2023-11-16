@@ -3,7 +3,7 @@ from tkinter import *
 from tkinter import ttk
 
 
-import accountScreens
+import settings
 
 def questScreen():
     #Displays current credit amount at top right
@@ -12,7 +12,7 @@ def questScreen():
                            bg = "pink",
                            font= ("Segoe UI Black", 25))
     cashCounter.place(relx=.9, rely=.05,anchor= CENTER)
-    accountScreens.widgetList.append(cashCounter)
+    settings.widgetList.append(cashCounter)
 
     #Page header
     greeting = tk.Label( text="Todays Quests!",
@@ -20,7 +20,7 @@ def questScreen():
                         bg = "pink",
                         font = ("BubbleGum",25))
     greeting.place(relx=.5, rely=.05,anchor= CENTER)
-    accountScreens.widgetList.append(greeting)
+    settings.widgetList.append(greeting)
 
     #Lists quests available
     questOne = tk.Label(text = "This is quest 1!",
@@ -28,14 +28,14 @@ def questScreen():
                         bg = "pink",
                         font = ("Segoe UI",14))
     questOne.place(relx=.5, rely=.10,anchor= CENTER)
-    accountScreens.widgetList.append(questOne)
+    settings.widgetList.append(questOne)
 
     acceptOne = tk.Button(text="Accept",
                             fg = "black",
                             bg = "pink",
                             font = ("Segoe UI",10))
     acceptOne.place(relx=.5, rely=.15,anchor= CENTER)
-    accountScreens.widgetList.append(acceptOne)
+    settings.widgetList.append(acceptOne)
     
 
     questTwo = tk.Label(text = "This is quest 2!",
@@ -43,11 +43,11 @@ def questScreen():
                         bg = "pink",
                         font = ("Segoe UI",14))
     questTwo.place(relx=.5, rely=.20,anchor= CENTER)
-    accountScreens.widgetList.append(questTwo)
+    settings.widgetList.append(questTwo)
 
     acceptTwo = tk.Button(text="Accept",
                             fg = "black",
                             bg = "pink",
                             font=("Segoe UI",10))
     acceptTwo.place(relx=.5, rely=.25,anchor= CENTER)
-    accountScreens.widgetList.append(acceptTwo)
+    settings.widgetList.append(acceptTwo)
