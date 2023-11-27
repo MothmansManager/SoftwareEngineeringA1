@@ -1,10 +1,29 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
+import sqlite3
+import mysql.connector #must be installed "pip install mysql-connector-python"
 
 import gui, todoScreen, taskBar
 
 widgetList = []
+
+conn = sqlite3.connect("userDetails.db")
+cursor = conn.cursor()
+
+cursor.execute(
+    '''CREATE TABLE IF NOT EXISTS users (
+        user_id TEXT PRIMARY KEY NOT NULL,
+        password INTEGER NOT NULL,
+        name TEXT,
+        tag1 TEXT,
+        tag2 TEXT,
+        tag3 TEXT,
+        currency INTEGER
+)''')
+
+conn.commit()
+conn.close()
 
 #C - The Screen to be displayed when the app is first opened
 def greetingWindow():
@@ -36,6 +55,17 @@ def createAccScreen():
                     font = ("BubbleGum",24))
     accountCreateHeader.place(relx=.5, rely=.05,anchor= CENTER)
     widgetList.append(accountCreateHeader)
+
+    username = tk.Label(text="Username:",
+                        fg = "black",
+                        bg = "pink",
+                        font = ("Segoe UI",12))
+    username.place(relx=.30, rely=.15, anchor=CENTER)
+    widgetList.append(username)
+
+    usernameEntry = tk.Entry()
+    widgetList.append(usernameEntry)
+    usernameEntry.place(relx=.50, rely=.15,anchor= CENTER)
     
     name = tk.Label(text="First Name:",
                         fg = "black",
@@ -48,6 +78,17 @@ def createAccScreen():
     nameEntry = tk.Entry()
     widgetList.append(nameEntry)
     nameEntry.place(relx=.50, rely=.2,anchor= CENTER)
+
+    password = tk.Label(text="Password:",
+                        fg = "black",
+                        bg = "pink",
+                        font = ("Segoe UI",12))
+    password.place(relx=.30, rely=.25, anchor=CENTER)
+    widgetList.append(password)
+
+    passwordEntry = tk.Entry(show="*")
+    widgetList.append(passwordEntry)
+    passwordEntry.place(relx=.50, rely=.25,anchor= CENTER)
 
     #C- Displays tag text and 3 dropdown selections for user to chose applicable tags from
     tagTitle = tk.Label(text="User Tags:",
@@ -79,3 +120,33 @@ def createAccScreen():
                             command = lambda: [gui.clearScreen(widgetList), todoScreen.questScreen(), taskBar.taskbar()])
     contButton.place(relx=.50, rely=.5,anchor= CENTER)
     widgetList.append(contButton)
+
+    username = usernameEntry.get()
+    password = passwordEntry.get()
+
+    conn = sqlite3.connect("userDetails.db")
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM users WHERE username=?", (username,))
+    existing_user = cursor.fetchone()
+
+    if existing_user:
+            existing = tk.Label(text="This username already exists please choose another one or login",
+                        fg = "red",
+                        bg = "pink",
+                        font = ("Segoe UI",12))
+            existing.place(relx=.6, rely=.3,anchor= CENTER)
+            widgetList.append(existing)
+    else:
+        # Insert the new user into the database
+        cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
+        conn.commit()
+        login = tk.Label(text="You have successfully signed up!! Please login",
+                        fg = "black",
+                        bg = "pink",
+                        font = ("Segoe UI",12))
+        login.place(relx=.6, rely=.3,anchor= CENTER)
+        widgetList.append(login)
+            
+    # Close the database connection
+    conn.close()
