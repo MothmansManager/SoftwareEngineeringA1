@@ -42,7 +42,7 @@ def greetingWindow():
                                         fg = "black",
                                         bg = "pink",
                                         font = ("Segoe UI", 9),
-                                        command = lambda: [gui.clearScreen(settings.widgetList), login(user_id)])
+                                        command = lambda user_id = user_id: [gui.clearScreen(settings.widgetList), login(user_id)])
                 existingUser.place(relx=0.5, y=yPixel, anchor=CENTER)
                 settings.widgetList.append(existingUser)
                 yPixel += 35
@@ -193,7 +193,6 @@ def submitAccount(username, password):
 
             
 def login(username):
-    loggedIn=False
 
     loginHeader = tk.Label(text="Login",
                 fg = "black",
@@ -227,5 +226,3 @@ def login(username):
                         command = lambda: submitAccount(passwordEntry.get()))
     contButton.place(relx=.50, rely=.5,anchor= CENTER)
     settings.widgetList.append(contButton)
-
-    return loggedIn
