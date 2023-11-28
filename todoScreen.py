@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 import sqlite3
-import accountScreens
+import accountScreens, settings
 
 conn = sqlite3.connect("userDetails.db")
 cursor = conn.cursor()
