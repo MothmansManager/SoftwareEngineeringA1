@@ -1,8 +1,8 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
-import sqlite3
-#import mysql.connector #must be installed "pip install mysql-connector-python"
+import sqlite3, settings, bcrypt 
+#import bcrypt #must be installed "pip install bcrypt"
 
 import gui, todoScreen, taskBar
 
@@ -44,9 +44,9 @@ def greetingWindow():
                                         fg = "black",
                                         bg = "pink",
                                         font = ("Segoe UI", 9),
-                                        command = lambda: [gui.clearScreen(settings.widgetList), login(user_id)])
+                                        command = lambda user_id = user_id : [gui.clearScreen(widgetList), login(user_id[0])])
                 existingUser.place(relx=0.5, y=yPixel, anchor=CENTER)
-                settings.widgetList.append(existingUser)
+                widgetList.append(existingUser)
                 yPixel += 35
 
     #C - Greeting for when the app is opened
@@ -152,84 +152,85 @@ def createAccScreen():
 
     return account_created
 
+def validate_entry(entry):
+    return len(entry) > 0
 
 def submitAccount(username, password):
     global widgetList
     global conn
 
-    # Connect to the database
-    conn = sqlite3.connect("userDetails.db")
-    cursor = conn.cursor()
+    if not (validate_entry(username) and validate_entry(password)):
+    # Display an error message if any of the required fields are empty
+        error_label = tk.Label(text="Please fill in all required fields",
+                            fg="red",
+                            bg="pink",
+                            font=("Segoe UI", 12))
+        error_label.place(relx=.6, rely=.3, anchor=CENTER)
+        widgetList.append(error_label)
+    else:    
+        # Connect to the database
+        conn = sqlite3.connect("userDetails.db")
+        cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM users WHERE user_id=?", (username,))
-    existing_user = cursor.fetchone()
+        cursor.execute("SELECT * FROM users WHERE user_id=?", (username,))
+        existing_user = cursor.fetchone()
 
-    if existing_user:
-        existing = tk.Label(text="This username already exists. Please choose another one or login",
-                           fg="red",
-                           bg="pink",
-                           font=("Segoe UI", 12))
-        existing.place(relx=.6, rely=.3, anchor=CENTER)
-        widgetList.append(existing)
-    else:
-        # Insert the new user into the database
-        cursor.execute("INSERT INTO users (user_id, password, currency) VALUES (?, ?, ?)", (username, password, 0))
-        conn.commit()
-        account_created_label = tk.Label(text="You have successfully signed up!! Please login",
-                                         fg="black",
-                                         bg="pink",
-                                         font=("Segoe UI", 12))
-        account_created_label.place(relx=.6, rely=.3, anchor=CENTER)
-<<<<<<< Updated upstream
-        widgetList.append(account_created_label)
-=======
-        settings.widgetList.append(account_created_label)
-        cursor.execute('SELECT currency FROM users WHERE user_id=?', (username,))
-        currency = cursor.fetchone()
->>>>>>> Stashed changes
+        if existing_user:
+            existing = tk.Label(text="This username already exists. Please choose another one or login",
+                            fg="red",
+                            bg="pink",
+                            font=("Segoe UI", 12))
+            existing.place(relx=.6, rely=.3, anchor=CENTER)
+            widgetList.append(existing)
+        else:
+            # Insert the new user into the database
+            cursor.execute("INSERT INTO users (user_id, password, currency) VALUES (?, ?, ?)", (username, password, 0))
+            conn.commit()
+            account_created_label = tk.Label(text="You have successfully signed up!! Please login",
+                                            fg="black",
+                                            bg="pink",
+                                            font=("Segoe UI", 12))
+            account_created_label.place(relx=.6, rely=.3, anchor=CENTER)
+            widgetList.append(account_created_label)
+            cursor.execute('SELECT currency FROM users WHERE user_id=?', (username,))
+            currency = cursor.fetchone()
 
-        # Set the account_created variable to True
-        account_created = True
+            # Set the account_created variable to True
+            account_created = True
     
-    if account_created == True:          
-<<<<<<< Updated upstream
-        gui.clearScreen(widgetList)
-        todoScreen.questScreen()
-=======
-        gui.clearScreen(settings.widgetList)
-        todoScreen.questScreen(currency)
->>>>>>> Stashed changes
-        taskBar.taskbar()
+            if account_created == True:          
+                gui.clearScreen(widgetList)
+                todoScreen.questScreen(currency)
+                taskBar.taskbar()
     # Close the database connection
     conn.close()
 
             
 def login(username):
-    loggedIn=False
 
     loginHeader = tk.Label(text="Login",
                 fg = "black",
                 bg = "pink",
                 font = ("BubbleGum",24))
     loginHeader.place(relx=.5, rely=.05,anchor= CENTER)
-    settings.widgetList.append(loginHeader)
+    widgetList.append(loginHeader)
 
     username = tk.Label(text=username,
                     fg = "black",
                     bg = "pink",
                     font = ("Segoe UI",12))
     username.place(relx=.30, rely=.15, anchor=CENTER)
-    settings.widgetList.append(username)
+    widgetList.append(username)
 
     password = tk.Label(text="Password:",
                     fg = "black",
                     bg = "pink",
                     font = ("Segoe UI",12))
     password.place(relx=.30, rely=.2, anchor=CENTER)
-    settings.widgetList.append(password)
+    widgetList.append(password)
 
     passwordEntry = tk.Entry(show="*")
-    settings.widgetList.append(passwordEntry)
+    widgetList.append(passwordEntry)
     passwordEntry.place(relx=.50, rely=.2,anchor= CENTER)
 
     contButton = tk.Button(text="Submit",
@@ -238,6 +239,4 @@ def login(username):
                         font = ("Segoe UI",10),
                         command = lambda: submitAccount(passwordEntry.get()))
     contButton.place(relx=.50, rely=.5,anchor= CENTER)
-    settings.widgetList.append(contButton)
-
-    return loggedIn
+    widgetList.append(contButton)
