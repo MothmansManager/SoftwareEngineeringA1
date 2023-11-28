@@ -4,7 +4,7 @@ from tkinter import ttk
 import sqlite3
 #import mysql.connector #must be installed "pip install mysql-connector-python"
 
-import gui, todoScreen, taskBar
+import gui, todoScreen, taskBar, settings
 
 widgetList = []
 
@@ -52,7 +52,7 @@ def greetingWindow():
     #C - Greeting for when the app is opened
     greeting = tk.Label( text="Welcome to QuestIt!",
                         fg = "black",
-                        bg = "pink",
+                        bg = settings.bgColor,
                         font = ("bubblegum",25))
     greeting.place(x=138, y=100)
     widgetList.append(greeting)
@@ -60,8 +60,8 @@ def greetingWindow():
     #C- Button to continue to profile set up
     contButton = tk.Button(text="Create Account",
                             fg = "black",
-                            bg = "pink",
-                            command = lambda: [gui.clearScreen(widgetList), createAccScreen()])
+                            bg = settings.bgColor,
+                            command = lambda: [gui.clearScreen(settings.widgetList), createAccScreen()])
     contButton.place(x=250, y=200)
     widgetList.append(contButton)
 
@@ -77,14 +77,14 @@ def createAccScreen():
 
     accountCreateHeader = tk.Label(text="Create Account",
                     fg = "black",
-                    bg = "pink",
+                    bg = settings.bgColor,
                     font = ("BubbleGum",24))
     accountCreateHeader.place(relx=.5, rely=.05,anchor= CENTER)
     widgetList.append(accountCreateHeader)
 
     username = tk.Label(text="Username:",
                         fg = "black",
-                        bg = "pink",
+                        bg = settings.bgColor,
                         font = ("Segoe UI",12))
     username.place(relx=.30, rely=.15, anchor=CENTER)
     widgetList.append(username)
@@ -95,7 +95,7 @@ def createAccScreen():
     
     name = tk.Label(text="First Name:",
                         fg = "black",
-                        bg = "pink",
+                        bg = settings.bgColor,
                         font = ("Segoe UI",12))
     name.place(relx=.30, rely=.2,anchor= CENTER)
     widgetList.append(name)
@@ -107,7 +107,7 @@ def createAccScreen():
 
     password = tk.Label(text="Password:",
                         fg = "black",
-                        bg = "pink",
+                        bg = settings.bgColor,
                         font = ("Segoe UI",12))
     password.place(relx=.30, rely=.25, anchor=CENTER)
     widgetList.append(password)
@@ -119,7 +119,7 @@ def createAccScreen():
     #C- Displays tag text and 3 dropdown selections for user to chose applicable tags from
     tagTitle = tk.Label(text="User Tags:",
                         fg = "black",
-                        bg = "pink",
+                        bg = settings.bgColor,
                         font = ("Segoe UI",12))
     tagTitle.place(relx=.5, rely=.3,anchor= CENTER)
     widgetList.append(tagTitle)
@@ -141,7 +141,7 @@ def createAccScreen():
 
     contButton = tk.Button(text="Submit",
                             fg = "black",
-                            bg = "pink",
+                            bg = settings.bgColor,
                             font = ("Segoe UI",10),
                             command = lambda: submitAccount(usernameEntry.get(), passwordEntry.get()))
     contButton.place(relx=.50, rely=.5,anchor= CENTER)
@@ -167,7 +167,7 @@ def submitAccount(username, password):
     if existing_user:
         existing = tk.Label(text="This username already exists. Please choose another one or login",
                            fg="red",
-                           bg="pink",
+                           bg=settings.bgColor,
                            font=("Segoe UI", 12))
         existing.place(relx=.6, rely=.3, anchor=CENTER)
         widgetList.append(existing)
@@ -177,28 +177,19 @@ def submitAccount(username, password):
         conn.commit()
         account_created_label = tk.Label(text="You have successfully signed up!! Please login",
                                          fg="black",
-                                         bg="pink",
+                                         bg=settings.bgColor,
                                          font=("Segoe UI", 12))
         account_created_label.place(relx=.6, rely=.3, anchor=CENTER)
-<<<<<<< Updated upstream
-        widgetList.append(account_created_label)
-=======
         settings.widgetList.append(account_created_label)
         cursor.execute('SELECT currency FROM users WHERE user_id=?', (username,))
         currency = cursor.fetchone()
->>>>>>> Stashed changes
 
         # Set the account_created variable to True
         account_created = True
     
     if account_created == True:          
-<<<<<<< Updated upstream
-        gui.clearScreen(widgetList)
-        todoScreen.questScreen()
-=======
         gui.clearScreen(settings.widgetList)
         todoScreen.questScreen(currency)
->>>>>>> Stashed changes
         taskBar.taskbar()
     # Close the database connection
     conn.close()

@@ -2,11 +2,7 @@ import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 import sqlite3
-<<<<<<< Updated upstream
-import accountScreens
-=======
-import settings, accountScreens
->>>>>>> Stashed changes
+import accountScreens, settings
 
 def questScreen(currency):
     modified_currency = str(currency).replace('(', '$').replace(',', '').replace(')', '')
