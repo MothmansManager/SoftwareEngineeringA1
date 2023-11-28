@@ -4,10 +4,6 @@ from tkinter import ttk
 import sqlite3
 import mysql.connector
 
-conn = sqlite3.connect("userDetails.db")
-cursor = conn.cursor()
-#cursor.execute("SELECT currency FROM users WHERE user_id=?", (username,))
-result = cursor.fetchone()
 
 """
 This creates a nav bar at the bottom of each page outside of account creation/set-up

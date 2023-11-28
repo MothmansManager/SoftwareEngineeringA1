@@ -1,9 +1,13 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
-
-
+import sqlite3
 import accountScreens
+
+conn = sqlite3.connect("userDetails.db")
+cursor = conn.cursor()
+cursor.execute("SELECT currency FROM users WHERE user_id=?", (accountScreens.username,))
+result = cursor.fetchone()
 
 def questScreen():
     #Displays current credit amount at top right
