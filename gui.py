@@ -7,7 +7,7 @@ import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 
-from accountScreens import *
+from accountScreens import greetingWindow
 
 
 #C - Function for displaying the app window on the screen and any GUI
