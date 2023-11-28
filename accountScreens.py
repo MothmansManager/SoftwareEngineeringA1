@@ -47,6 +47,8 @@ def greetingWindow():
 #C- Screen to display upon first launch of the program to create a user account with associated names and "generative"(used to create recommended tasks) tags
 def createAccScreen():
 
+    account_created=False
+
     tagList = ["Student", "Professor", "Pet Owner", "Dentist"]
 
     accountCreateHeader = tk.Label(text="Create Account",
@@ -117,36 +119,55 @@ def createAccScreen():
                             fg = "black",
                             bg = "pink",
                             font = ("Segoe UI",10),
-                            command = lambda: [gui.clearScreen(widgetList), todoScreen.questScreen(), taskBar.taskbar()])
+                            command = lambda: submitAccount(usernameEntry.get(), passwordEntry.get()))
     contButton.place(relx=.50, rely=.5,anchor= CENTER)
     widgetList.append(contButton)
 
     username = usernameEntry.get()
     password = passwordEntry.get()
 
+    return account_created
+
+
+def submitAccount(username, password):
+    global widgetList
+    global conn
+
+    # Connect to the database
     conn = sqlite3.connect("userDetails.db")
     cursor = conn.cursor()
 
-    cursor.execute("SELECT * FROM users WHERE username=?", (username,))
+    cursor.execute("SELECT * FROM users WHERE user_id=?", (username,))
     existing_user = cursor.fetchone()
 
     if existing_user:
-            existing = tk.Label(text="This username already exists please choose another one or login",
-                        fg = "red",
-                        bg = "pink",
-                        font = ("Segoe UI",12))
-            existing.place(relx=.6, rely=.3,anchor= CENTER)
-            widgetList.append(existing)
+        existing = tk.Label(text="This username already exists. Please choose another one or login",
+                           fg="red",
+                           bg="pink",
+                           font=("Segoe UI", 12))
+        existing.place(relx=.6, rely=.3, anchor=CENTER)
+        widgetList.append(existing)
     else:
         # Insert the new user into the database
-        cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
+        cursor.execute("INSERT INTO users (user_id, password, currency) VALUES (?, ?, 0)", (username, password))
         conn.commit()
-        login = tk.Label(text="You have successfully signed up!! Please login",
-                        fg = "black",
-                        bg = "pink",
-                        font = ("Segoe UI",12))
-        login.place(relx=.6, rely=.3,anchor= CENTER)
-        widgetList.append(login)
-            
+        account_created_label = tk.Label(text="You have successfully signed up!! Please login",
+                                         fg="black",
+                                         bg="pink",
+                                         font=("Segoe UI", 12))
+        account_created_label.place(relx=.6, rely=.3, anchor=CENTER)
+        widgetList.append(account_created_label)
+
+        # Set the account_created variable to True
+        account_created = True
+    
+    if account_created == True:          
+        gui.clearScreen(widgetList)
+        todoScreen.questScreen()
+        taskBar.taskbar()
     # Close the database connection
     conn.close()
+
+            
+
+
