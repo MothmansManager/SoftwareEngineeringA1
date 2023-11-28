@@ -4,9 +4,7 @@ from tkinter import ttk
 import sqlite3
 #import mysql.connector #must be installed "pip install mysql-connector-python"
 
-import gui, todoScreen, taskBar
-
-widgetList = []
+import gui, todoScreen, taskBar, settings
 
 conn = sqlite3.connect("userDetails.db")
 cursor = conn.cursor()
@@ -34,15 +32,15 @@ def greetingWindow():
                         bg = "pink",
                         font = ("bubblegum",25))
     greeting.place(x=138, y=100)
-    widgetList.append(greeting)
+    settings.widgetList.append(greeting)
 
     #C- Button to continue to profile set up
     contButton = tk.Button(text="Create Account",
                             fg = "black",
                             bg = "pink",
-                            command = lambda: [gui.clearScreen(widgetList), createAccScreen()])
+                            command = lambda: [gui.clearScreen(settings.widgetList), createAccScreen()])
     contButton.place(x=250, y=200)
-    widgetList.append(contButton)
+    settings.widgetList.append(contButton)
 
 #C- Screen to display upon first launch of the program to create a user account with associated names and "generative"(used to create recommended tasks) tags
 def createAccScreen():
@@ -56,29 +54,29 @@ def createAccScreen():
                     bg = "pink",
                     font = ("BubbleGum",24))
     accountCreateHeader.place(relx=.5, rely=.05,anchor= CENTER)
-    widgetList.append(accountCreateHeader)
+    settings.widgetList.append(accountCreateHeader)
 
     username = tk.Label(text="Username:",
                         fg = "black",
                         bg = "pink",
                         font = ("Segoe UI",12))
     username.place(relx=.30, rely=.15, anchor=CENTER)
-    widgetList.append(username)
+    settings.widgetList.append(username)
 
     usernameEntry = tk.Entry()
-    widgetList.append(usernameEntry)
     usernameEntry.place(relx=.50, rely=.15,anchor= CENTER)
+    settings.widgetList.append(usernameEntry)
     
     name = tk.Label(text="First Name:",
                         fg = "black",
                         bg = "pink",
                         font = ("Segoe UI",12))
     name.place(relx=.30, rely=.2,anchor= CENTER)
-    widgetList.append(name)
+    settings.widgetList.append(name)
 
     #C- Entry box for user to input their name for later use
     nameEntry = tk.Entry()
-    widgetList.append(nameEntry)
+    settings.widgetList.append(nameEntry)
     nameEntry.place(relx=.50, rely=.2,anchor= CENTER)
 
     password = tk.Label(text="Password:",
@@ -86,10 +84,10 @@ def createAccScreen():
                         bg = "pink",
                         font = ("Segoe UI",12))
     password.place(relx=.30, rely=.25, anchor=CENTER)
-    widgetList.append(password)
+    settings.widgetList.append(password)
 
     passwordEntry = tk.Entry(show="*")
-    widgetList.append(passwordEntry)
+    settings.widgetList.append(passwordEntry)
     passwordEntry.place(relx=.50, rely=.25,anchor= CENTER)
 
     #C- Displays tag text and 3 dropdown selections for user to chose applicable tags from
@@ -98,22 +96,22 @@ def createAccScreen():
                         bg = "pink",
                         font = ("Segoe UI",12))
     tagTitle.place(relx=.5, rely=.3,anchor= CENTER)
-    widgetList.append(tagTitle)
+    settings.widgetList.append(tagTitle)
 
     tag1 = ttk.Combobox(values = tagList)
     tag1.set("Select a Tag")
     tag1.place(relx=.50, rely=.35,anchor= CENTER)
-    widgetList.append(tag1)
+    settings.widgetList.append(tag1)
 
     tag2 = ttk.Combobox(values = tagList)
     tag2.set("Select a Tag")
     tag2.place(relx=.50, rely=.4,anchor= CENTER)
-    widgetList.append(tag2)
+    settings.widgetList.append(tag2)
 
     tag3 = ttk.Combobox(values = tagList)
     tag3.set("Select a Tag")
     tag3.place(relx=.50, rely=.45,anchor= CENTER)
-    widgetList.append(tag3)
+    settings.widgetList.append(tag3)
 
     contButton = tk.Button(text="Submit",
                             fg = "black",
@@ -121,7 +119,7 @@ def createAccScreen():
                             font = ("Segoe UI",10),
                             command = lambda: submitAccount(usernameEntry.get(), passwordEntry.get()))
     contButton.place(relx=.50, rely=.5,anchor= CENTER)
-    widgetList.append(contButton)
+    settings.widgetList.append(contButton)
 
     username = usernameEntry.get()
     password = passwordEntry.get()
@@ -130,7 +128,6 @@ def createAccScreen():
 
 
 def submitAccount(username, password):
-    global widgetList
     global conn
 
     # Connect to the database
@@ -146,7 +143,7 @@ def submitAccount(username, password):
                            bg="pink",
                            font=("Segoe UI", 12))
         existing.place(relx=.6, rely=.3, anchor=CENTER)
-        widgetList.append(existing)
+        settings.widgetList.append(existing)
     else:
         # Insert the new user into the database
         cursor.execute("INSERT INTO users (user_id, password, currency) VALUES (?, ?, 0)", (username, password))
@@ -156,13 +153,13 @@ def submitAccount(username, password):
                                          bg="pink",
                                          font=("Segoe UI", 12))
         account_created_label.place(relx=.6, rely=.3, anchor=CENTER)
-        widgetList.append(account_created_label)
+        settings.widgetList.append(account_created_label)
 
         # Set the account_created variable to True
         account_created = True
     
     if account_created == True:          
-        gui.clearScreen(widgetList)
+        gui.clearScreen(settings.widgetList)
         todoScreen.questScreen()
         taskBar.taskbar()
     # Close the database connection
