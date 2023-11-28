@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 import sqlite3
-import mysql.connector
+#import mysql.connector
 
 
 import shopScreen, gui, settings, todoScreen, completedQuestsScreen

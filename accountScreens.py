@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 import sqlite3
-import mysql.connector #must be installed "pip install mysql-connector-python"
+#import mysql.connector #must be installed "pip install mysql-connector-python"
 
 import gui, todoScreen, taskBar
 

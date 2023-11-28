@@ -6,7 +6,7 @@ import accountScreens
 
 conn = sqlite3.connect("userDetails.db")
 cursor = conn.cursor()
-cursor.execute("SELECT currency FROM users WHERE user_id=?", (accountScreens.username,))
+#cursor.execute("SELECT currency FROM users WHERE user_id=?", (accountScreens.username,))
 result = cursor.fetchone()
 
 def questScreen():
