@@ -2,23 +2,22 @@
 This file contains the code relating to the graphical user interface of the application.
 This includes things like window, window size, buttons, text, images, etc.
 """
-
+import settings
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
+from accountScreens import greetingWindow
 
-from accountScreens import *
 
+root = tk.Tk()
 
 #C - Function for displaying the app window on the screen and any GUI
 def windowOut():
-    root = tk.Tk()
-    frame = Frame(root)
 
     #C - This gives the window a title, size and does not allow for its dimensions to be changed.
     root.title("Questing App")
     root.geometry("600x900+50+50")
-    root.configure(bg='pink')
+    root.configure(bg=settings.windowColor)
     root.resizable(False,False)
 
     #C- Calls Greeting Screen to display
