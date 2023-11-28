@@ -27,6 +27,27 @@ conn.close()
 
 #C - The Screen to be displayed when the app is first opened
 def greetingWindow():
+    def display_usernames():
+            # Connect to the database
+            conn = sqlite3.connect("userDetails.db")
+            cursor = conn.cursor()
+
+            # Retrieve all users
+            cursor.execute("SELECT user_id FROM users")
+            users = cursor.fetchall()
+
+            # Display usernames using labels
+            yPixel = 280
+            usersArray = []
+            for i, user_id in enumerate(users):
+                existingUser = tk.Button(text=f"User {i+1}: {user_id[0]}",
+                                        fg = "black",
+                                        bg = "pink",
+                                        font = ("Segoe UI", 9),
+                                        command = lambda: [gui.clearScreen(settings.widgetList), login(user_id)])
+                existingUser.place(relx=0.5, y=yPixel, anchor=CENTER)
+                settings.widgetList.append(existingUser)
+                yPixel += 35
 
     #C - Greeting for when the app is opened
     greeting = tk.Label( text="Welcome to QuestIt!",
@@ -44,6 +65,9 @@ def greetingWindow():
     contButton.place(x=250, y=200)
     widgetList.append(contButton)
 
+    display_usernames()
+
+    conn.close()
 #C- Screen to display upon first launch of the program to create a user account with associated names and "generative"(used to create recommended tasks) tags
 def createAccScreen():
 
@@ -149,25 +173,71 @@ def submitAccount(username, password):
         widgetList.append(existing)
     else:
         # Insert the new user into the database
-        cursor.execute("INSERT INTO users (user_id, password, currency) VALUES (?, ?, 0)", (username, password))
+        cursor.execute("INSERT INTO users (user_id, password, currency) VALUES (?, ?, ?)", (username, password, 0))
         conn.commit()
         account_created_label = tk.Label(text="You have successfully signed up!! Please login",
                                          fg="black",
                                          bg="pink",
                                          font=("Segoe UI", 12))
         account_created_label.place(relx=.6, rely=.3, anchor=CENTER)
+<<<<<<< Updated upstream
         widgetList.append(account_created_label)
+=======
+        settings.widgetList.append(account_created_label)
+        cursor.execute('SELECT currency FROM users WHERE user_id=?', (username,))
+        currency = cursor.fetchone()
+>>>>>>> Stashed changes
 
         # Set the account_created variable to True
         account_created = True
     
     if account_created == True:          
+<<<<<<< Updated upstream
         gui.clearScreen(widgetList)
         todoScreen.questScreen()
+=======
+        gui.clearScreen(settings.widgetList)
+        todoScreen.questScreen(currency)
+>>>>>>> Stashed changes
         taskBar.taskbar()
     # Close the database connection
     conn.close()
 
             
+def login(username):
+    loggedIn=False
 
+    loginHeader = tk.Label(text="Login",
+                fg = "black",
+                bg = "pink",
+                font = ("BubbleGum",24))
+    loginHeader.place(relx=.5, rely=.05,anchor= CENTER)
+    settings.widgetList.append(loginHeader)
 
+    username = tk.Label(text=username,
+                    fg = "black",
+                    bg = "pink",
+                    font = ("Segoe UI",12))
+    username.place(relx=.30, rely=.15, anchor=CENTER)
+    settings.widgetList.append(username)
+
+    password = tk.Label(text="Password:",
+                    fg = "black",
+                    bg = "pink",
+                    font = ("Segoe UI",12))
+    password.place(relx=.30, rely=.2, anchor=CENTER)
+    settings.widgetList.append(password)
+
+    passwordEntry = tk.Entry(show="*")
+    settings.widgetList.append(passwordEntry)
+    passwordEntry.place(relx=.50, rely=.2,anchor= CENTER)
+
+    contButton = tk.Button(text="Submit",
+                        fg = "black",
+                        bg = "pink",
+                        font = ("Segoe UI",10),
+                        command = lambda: submitAccount(passwordEntry.get()))
+    contButton.place(relx=.50, rely=.5,anchor= CENTER)
+    settings.widgetList.append(contButton)
+
+    return loggedIn

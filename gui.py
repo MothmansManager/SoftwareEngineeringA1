@@ -23,6 +23,7 @@ def windowOut():
 
     #C- Calls Greeting Screen to display
     greetingWindow()
+    
 
     #C- The main loop for the window application
     root.mainloop()

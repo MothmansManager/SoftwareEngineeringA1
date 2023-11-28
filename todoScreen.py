@@ -2,16 +2,16 @@ import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 import sqlite3
+<<<<<<< Updated upstream
 import accountScreens
+=======
+import settings, accountScreens
+>>>>>>> Stashed changes
 
-conn = sqlite3.connect("userDetails.db")
-cursor = conn.cursor()
-#cursor.execute("SELECT currency FROM users WHERE user_id=?", (accountScreens.username,))
-result = cursor.fetchone()
-
-def questScreen():
+def questScreen(currency):
+    modified_currency = str(currency).replace('(', '$').replace(',', '').replace(')', '')
     #Displays current credit amount at top right
-    cashCounter = tk.Label( text = "$25",
+    cashCounter = tk.Label( text = f'{modified_currency}',
                            fg = "black",
                            bg = "pink",
                            font= ("Segoe UI Black", 25))
