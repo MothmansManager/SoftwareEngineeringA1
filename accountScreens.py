@@ -1,10 +1,12 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
-import sqlite3, settings, bcrypt 
-#import bcrypt #must be installed "pip install bcrypt"
+import sqlite3, settings
+#import mysql.connector #must be installed "pip install mysql-connector-python"
 
-import gui, todoScreen, taskBar, settings
+import gui, todoScreen, taskBar
+
+widgetList = []
 
 conn = sqlite3.connect("userDetails.db")
 cursor = conn.cursor()
@@ -42,26 +44,26 @@ def greetingWindow():
                                         fg = "black",
                                         bg = "pink",
                                         font = ("Segoe UI", 9),
-                                        command = lambda user_id = user_id : [gui.clearScreen(widgetList), login(user_id[0])])
+                                        command = lambda: [gui.clearScreen(settings.widgetList), login(user_id)])
                 existingUser.place(relx=0.5, y=yPixel, anchor=CENTER)
-                widgetList.append(existingUser)
+                settings.widgetList.append(existingUser)
                 yPixel += 35
 
     #C - Greeting for when the app is opened
     greeting = tk.Label( text="Welcome to QuestIt!",
                         fg = "black",
-                        bg = settings.bgColor,
+                        bg = "pink",
                         font = ("bubblegum",25))
     greeting.place(x=138, y=100)
-    settings.widgetList.append(greeting)
+    widgetList.append(greeting)
 
     #C- Button to continue to profile set up
     contButton = tk.Button(text="Create Account",
                             fg = "black",
-                            bg = settings.bgColor,
-                            command = lambda: [gui.clearScreen(settings.widgetList), createAccScreen()])
+                            bg = "pink",
+                            command = lambda: [gui.clearScreen(widgetList), createAccScreen()])
     contButton.place(x=250, y=200)
-    settings.widgetList.append(contButton)
+    widgetList.append(contButton)
 
     display_usernames()
 
@@ -75,186 +77,150 @@ def createAccScreen():
 
     accountCreateHeader = tk.Label(text="Create Account",
                     fg = "black",
-                    bg = settings.bgColor,
+                    bg = "pink",
                     font = ("BubbleGum",24))
     accountCreateHeader.place(relx=.5, rely=.05,anchor= CENTER)
-    settings.widgetList.append(accountCreateHeader)
+    widgetList.append(accountCreateHeader)
 
     username = tk.Label(text="Username:",
                         fg = "black",
-                        bg = settings.bgColor,
+                        bg = "pink",
                         font = ("Segoe UI",12))
     username.place(relx=.30, rely=.15, anchor=CENTER)
-    settings.widgetList.append(username)
+    widgetList.append(username)
 
     usernameEntry = tk.Entry()
+    widgetList.append(usernameEntry)
     usernameEntry.place(relx=.50, rely=.15,anchor= CENTER)
-    settings.widgetList.append(usernameEntry)
     
     name = tk.Label(text="First Name:",
                         fg = "black",
-                        bg = settings.bgColor,
+                        bg = "pink",
                         font = ("Segoe UI",12))
     name.place(relx=.30, rely=.2,anchor= CENTER)
-    settings.widgetList.append(name)
+    widgetList.append(name)
 
     #C- Entry box for user to input their name for later use
     nameEntry = tk.Entry()
-    settings.widgetList.append(nameEntry)
+    widgetList.append(nameEntry)
     nameEntry.place(relx=.50, rely=.2,anchor= CENTER)
 
     password = tk.Label(text="Password:",
                         fg = "black",
-                        bg = settings.bgColor,
+                        bg = "pink",
                         font = ("Segoe UI",12))
     password.place(relx=.30, rely=.25, anchor=CENTER)
-    settings.widgetList.append(password)
+    widgetList.append(password)
 
     passwordEntry = tk.Entry(show="*")
-    settings.widgetList.append(passwordEntry)
+    widgetList.append(passwordEntry)
     passwordEntry.place(relx=.50, rely=.25,anchor= CENTER)
 
     #C- Displays tag text and 3 dropdown selections for user to chose applicable tags from
     tagTitle = tk.Label(text="User Tags:",
                         fg = "black",
-                        bg = settings.bgColor,
+                        bg = "pink",
                         font = ("Segoe UI",12))
     tagTitle.place(relx=.5, rely=.3,anchor= CENTER)
-    settings.widgetList.append(tagTitle)
+    widgetList.append(tagTitle)
 
     tag1 = ttk.Combobox(values = tagList)
     tag1.set("Select a Tag")
     tag1.place(relx=.50, rely=.35,anchor= CENTER)
-    settings.widgetList.append(tag1)
+    widgetList.append(tag1)
 
     tag2 = ttk.Combobox(values = tagList)
     tag2.set("Select a Tag")
     tag2.place(relx=.50, rely=.4,anchor= CENTER)
-    settings.widgetList.append(tag2)
+    widgetList.append(tag2)
 
     tag3 = ttk.Combobox(values = tagList)
     tag3.set("Select a Tag")
     tag3.place(relx=.50, rely=.45,anchor= CENTER)
-    settings.widgetList.append(tag3)
+    widgetList.append(tag3)
 
     contButton = tk.Button(text="Submit",
                             fg = "black",
-                            bg = settings.bgColor,
+                            bg = "pink",
                             font = ("Segoe UI",10),
                             command = lambda: submitAccount(usernameEntry.get(), passwordEntry.get()))
     contButton.place(relx=.50, rely=.5,anchor= CENTER)
-    settings.widgetList.append(contButton)
+    widgetList.append(contButton)
 
     username = usernameEntry.get()
     password = passwordEntry.get()
 
     return account_created
 
-def validate_entry(entry):
-    return len(entry) > 0
 
 def submitAccount(username, password):
+    global widgetList
     global conn
 
-    if not (validate_entry(username) and validate_entry(password)):
-    # Display an error message if any of the required fields are empty
-        error_label = tk.Label(text="Please fill in all required fields",
-                            fg="red",
-                            bg="pink",
-                            font=("Segoe UI", 12))
-        error_label.place(relx=.6, rely=.3, anchor=CENTER)
-        widgetList.append(error_label)
-    else:    
-        # Connect to the database
-        conn = sqlite3.connect("userDetails.db")
-        cursor = conn.cursor()
+    # Connect to the database
+    conn = sqlite3.connect("userDetails.db")
+    cursor = conn.cursor()
 
-        cursor.execute("SELECT * FROM users WHERE user_id=?", (username,))
-        existing_user = cursor.fetchone()
+    cursor.execute("SELECT * FROM users WHERE user_id=?", (username,))
+    existing_user = cursor.fetchone()
 
-<<<<<<< HEAD
-        if existing_user:
-            existing = tk.Label(text="This username already exists. Please choose another one or login",
-                            fg="red",
-                            bg="pink",
-                            font=("Segoe UI", 12))
-            existing.place(relx=.6, rely=.3, anchor=CENTER)
-            widgetList.append(existing)
-        else:
-            # Insert the new user into the database
-            cursor.execute("INSERT INTO users (user_id, password, currency) VALUES (?, ?, ?)", (username, password, 0))
-            conn.commit()
-            account_created_label = tk.Label(text="You have successfully signed up!! Please login",
-                                            fg="black",
-                                            bg="pink",
-                                            font=("Segoe UI", 12))
-            account_created_label.place(relx=.6, rely=.3, anchor=CENTER)
-            widgetList.append(account_created_label)
-            cursor.execute('SELECT currency FROM users WHERE user_id=?', (username,))
-            currency = cursor.fetchone()
-=======
     if existing_user:
         existing = tk.Label(text="This username already exists. Please choose another one or login",
-                           fg="red",
-                           bg=settings.bgColor,
-                           font=("Segoe UI", 12))
+                        fg="red",
+                        bg="pink",
+                        font=("Segoe UI", 12))
         existing.place(relx=.6, rely=.3, anchor=CENTER)
-        settings.widgetList.append(existing)
+        widgetList.append(existing)
     else:
         # Insert the new user into the database
-        cursor.execute("INSERT INTO users (user_id, password, currency) VALUES (?, ?, 0)", (username, password))
+        cursor.execute("INSERT INTO users (user_id, password, currency) VALUES (?, ?, ?)", (username, password, 0))
         conn.commit()
         account_created_label = tk.Label(text="You have successfully signed up!! Please login",
-                                         fg="black",
-                                         bg=settings.bgColor,
-                                         font=("Segoe UI", 12))
+                                        fg="black",
+                                        bg="pink",
+                                        font=("Segoe UI", 12))
         account_created_label.place(relx=.6, rely=.3, anchor=CENTER)
-        settings.widgetList.append(account_created_label)
->>>>>>> CustomisationFeatures
+        widgetList.append(account_created_label)
+        cursor.execute('SELECT currency FROM users WHERE user_id=?', (username,))
+        currency = cursor.fetchone()
 
-            # Set the account_created variable to True
-            account_created = True
+        # Set the account_created variable to True
+        account_created = True
     
-<<<<<<< HEAD
-            if account_created == True:          
-                gui.clearScreen(widgetList)
-                todoScreen.questScreen(currency)
-                taskBar.taskbar()
-=======
     if account_created == True:          
         gui.clearScreen(settings.widgetList)
-        todoScreen.questScreen()
+        todoScreen.questScreen(currency)
         taskBar.taskbar()
->>>>>>> CustomisationFeatures
     # Close the database connection
     conn.close()
 
             
 def login(username):
+    loggedIn=False
 
     loginHeader = tk.Label(text="Login",
                 fg = "black",
                 bg = "pink",
                 font = ("BubbleGum",24))
     loginHeader.place(relx=.5, rely=.05,anchor= CENTER)
-    widgetList.append(loginHeader)
+    settings.widgetList.append(loginHeader)
 
     username = tk.Label(text=username,
                     fg = "black",
                     bg = "pink",
                     font = ("Segoe UI",12))
     username.place(relx=.30, rely=.15, anchor=CENTER)
-    widgetList.append(username)
+    settings.widgetList.append(username)
 
     password = tk.Label(text="Password:",
                     fg = "black",
                     bg = "pink",
                     font = ("Segoe UI",12))
     password.place(relx=.30, rely=.2, anchor=CENTER)
-    widgetList.append(password)
+    settings.widgetList.append(password)
 
     passwordEntry = tk.Entry(show="*")
-    widgetList.append(passwordEntry)
+    settings.widgetList.append(passwordEntry)
     passwordEntry.place(relx=.50, rely=.2,anchor= CENTER)
 
     contButton = tk.Button(text="Submit",
@@ -263,4 +229,6 @@ def login(username):
                         font = ("Segoe UI",10),
                         command = lambda: submitAccount(passwordEntry.get()))
     contButton.place(relx=.50, rely=.5,anchor= CENTER)
-    widgetList.append(contButton)
+    settings.widgetList.append(contButton)
+
+    return loggedIn
