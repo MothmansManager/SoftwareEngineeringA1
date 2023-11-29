@@ -141,17 +141,20 @@ def createAccScreen():
                             fg = "black",
                             bg = "pink",
                             font = ("Segoe UI",10),
-                            command = lambda: submitAccount(usernameEntry.get(), passwordEntry.get()))
+                            command = lambda: submitAccount(usernameEntry.get(), passwordEntry.get(), nameEntry.get()))
     contButton.place(relx=.50, rely=.5,anchor= CENTER)
     settings.widgetList.append(contButton)
 
     username = usernameEntry.get()
     password = passwordEntry.get()
+    name = nameEntry.get()
 
     return account_created
 
+def validate_entry(entry):
+    return len(entry) > 0
 
-def submitAccount(username, password):
+def submitAccount(username, password, name):
     global conn
 
     # Connect to the database
@@ -160,35 +163,49 @@ def submitAccount(username, password):
 
     cursor.execute("SELECT * FROM users WHERE user_id=?", (username,))
     existing_user = cursor.fetchone()
+    if not (validate_entry(username) and validate_entry(password) and validate_entry(name)):
+    # Display an error message if any of the required fields are empty
+        error_label = tk.Label(text="Please fill in all required fields",
+                            fg="red",
+                            bg="pink",
+                            font=("Segoe UI", 12))
+        error_label.place(relx=.5, rely=.55, anchor=CENTER)
+        settings.widgetList.append(error_label)
+    else:    
+        # Connect to the database
+        conn = sqlite3.connect("userDetails.db")
+        cursor = conn.cursor()
 
-    if existing_user:
-        existing = tk.Label(text="This username already exists. Please choose another one or login",
-                        fg="red",
-                        bg="pink",
-                        font=("Segoe UI", 12))
-        existing.place(relx=.6, rely=.3, anchor=CENTER)
-        settings.widgetList.append(existing)
-    else:
-        # Insert the new user into the database
-        cursor.execute("INSERT INTO users (user_id, password, currency) VALUES (?, ?, ?)", (username, password, 0))
-        conn.commit()
-        account_created_label = tk.Label(text="You have successfully signed up!! Please login",
-                                        fg="black",
-                                        bg="pink",
-                                        font=("Segoe UI", 12))
-        account_created_label.place(relx=.6, rely=.3, anchor=CENTER)
-        settings.widgetList.append(account_created_label)
-        cursor.execute('SELECT currency FROM users WHERE user_id=?', (username,))
-        settings.currency = cursor.fetchone()
+        cursor.execute("SELECT * FROM users WHERE user_id=?", (username,))
+        existing_user = cursor.fetchone()
+        if existing_user:
+            existing = tk.Label(text="This username already exists. Please choose another one or login",
+                            fg="red",
+                            bg="pink",
+                            font=("Segoe UI", 12))
+            existing.place(relx=.5, rely=.6, anchor=CENTER)
+            settings.widgetList.append(existing)
+        else:
+            # Insert the new user into the database
+            cursor.execute("INSERT INTO users (user_id, password, currency) VALUES (?, ?, ?)", (username, password, 0))
+            conn.commit()
+            account_created_label = tk.Label(text="You have successfully signed up!! Please login",
+                                            fg="black",
+                                            bg="pink",
+                                            font=("Segoe UI", 12))
+            account_created_label.place(relx=.6, rely=.3, anchor=CENTER)
+            settings.widgetList.append(account_created_label)
+            cursor.execute('SELECT currency FROM users WHERE user_id=?', (username,))
+            settings.currency = cursor.fetchone()
 
-        # Set the account_created variable to True
-        account_created = True
+            # Set the account_created variable to True
+            account_created = True
     
-    if account_created == True:          
-        gui.clearScreen(settings.widgetList)
-        todoScreen.questScreen(settings.currency)
-        taskBar.taskbar()
-    # Close the database connection
+            if account_created == True:          
+                gui.clearScreen(settings.widgetList)
+                todoScreen.questScreen(settings.currency)
+                taskBar.taskbar()
+            # Close the database connection
     conn.close()
 
             
