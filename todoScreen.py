@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 import sqlite3
-import accountScreens, settings
+import accountScreens, settings, timer
 
 conn = sqlite3.connect("userDetails.db")
 cursor = conn.cursor()
@@ -38,7 +38,8 @@ def questScreen(currency):
     acceptOne = tk.Button(text="Accept",
                             fg = "black",
                             bg = settings.bgColor,
-                            font = ("Segoe UI",10))
+                            font = ("Segoe UI",10),
+                            command = lambda : [timer.taskTimer(1)])
     acceptOne.place(relx=.5, rely=.15,anchor= CENTER)
     settings.widgetList.append(acceptOne)
     
