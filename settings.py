@@ -14,3 +14,4 @@ global windowColor
 windowColor = "pink"
 
 global currency
+currency = 0

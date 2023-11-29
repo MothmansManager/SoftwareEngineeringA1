@@ -63,6 +63,14 @@ def greetingWindow():
     contButton.place(x=250, y=200)
     settings.widgetList.append(contButton)
 
+    #TESTING BUTTON REMOVE FOR FULL RELEASE
+    skipButton = tk.Button(text="SKIP",
+                            fg = "black",
+                            bg = "pink",
+                            command = lambda: [gui.clearScreen(settings.widgetList), todoScreen.questScreen(0), taskBar.taskbar()])
+    skipButton.place(relx=.5, rely=.9, anchor = CENTER)
+    settings.widgetList.append(skipButton)
+
     display_usernames()
 
     conn.close()
