@@ -39,7 +39,7 @@ def questScreen(currency):
                             fg = "black",
                             bg = settings.bgColor,
                             font = ("Segoe UI",10),
-                            command = lambda : [timer.taskTimer(1)])
+                            command = lambda : [])
     acceptOne.place(relx=.5, rely=.15,anchor= CENTER)
     settings.widgetList.append(acceptOne)
     
