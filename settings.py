@@ -12,3 +12,5 @@ taskbarColor = "#ffe2e6"
 
 global windowColor
 windowColor = "pink"
+
+global currency
