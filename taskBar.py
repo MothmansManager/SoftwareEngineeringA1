@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
-import sqlite3
+import settings
 #import mysql.connector
 
 
@@ -43,7 +43,7 @@ def taskbar():
     homeButton = tk.Button(image = home, 
                          bg=settings.taskbarColor,
                          bd = 0,
-                         command = lambda:  [gui.clearScreen(settings.widgetList), todoScreen.questScreen()])
+                         command = lambda:  [gui.clearScreen(settings.widgetList), todoScreen.questScreen(settings.currency)])
     homeButton.image = home
     homeButton.place(relx=.5, rely=.92,anchor= CENTER)
     tbWidgets.append(homeButton)

@@ -179,14 +179,14 @@ def submitAccount(username, password):
         account_created_label.place(relx=.6, rely=.3, anchor=CENTER)
         settings.widgetList.append(account_created_label)
         cursor.execute('SELECT currency FROM users WHERE user_id=?', (username,))
-        currency = cursor.fetchone()
+        settings.currency = cursor.fetchone()
 
         # Set the account_created variable to True
         account_created = True
     
     if account_created == True:          
         gui.clearScreen(settings.widgetList)
-        todoScreen.questScreen(currency)
+        todoScreen.questScreen(settings.currency)
         taskBar.taskbar()
     # Close the database connection
     conn.close()
