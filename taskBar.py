@@ -60,7 +60,7 @@ def taskbar():
     shopButton = tk.Button(image = shop, 
                          bg=settings.taskbarColor,
                          bd = 0,
-                         command = lambda:  [gui.clearScreen(settings.widgetList), shopScreen.shopScreen()])
+                         command = lambda:  [gui.clearScreen(settings.widgetList), shopScreen.shopScreen(settings.currency)])
     shopButton.image = shop
     shopButton.place(relx=.85, rely=.92,anchor= CENTER)
     tbWidgets.append(shopButton)
