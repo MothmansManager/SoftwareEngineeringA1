@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 
-import gui, todoScreen, taskBar, settings
+import gui, todoScreen, taskBar, settings, builder
 
 def completedQuests():
 
@@ -20,5 +20,7 @@ def completedQuests():
                         font = ("Segoe UI Black", 25))
     completedTitle.place(relx=.5, rely=.05,anchor= CENTER)
     settings.widgetList.append(completedTitle)
+
+    builder.taskBuilder(settings.completedTaskList)
 
     
