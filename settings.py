@@ -15,3 +15,10 @@ windowColor = "pink"
 
 global currency
 currency = 0
+
+#test variable for making a task list
+global taskList
+taskList = ["Clean the Bathroom", "Do my Homework", "Walk the Dog", "YAdaYAda"]
+
+global completedTaskList
+completedTaskList = []
