@@ -26,7 +26,7 @@ def shopScreen(currency):
     shopTitle = tk.Label( text="The Shop",
                         fg = "black",
                         bg = settings.bgColor,
-                        font = ("Segoe UI", 25))
+                        font = ("Segoe UI Black", 25))
     shopTitle.place(relx=.5, rely=.05,anchor= CENTER)
     settings.widgetList.append(shopTitle)
 
@@ -59,7 +59,7 @@ def shopScreen(currency):
     optionOne =tk.Button(text="Buy",
                             fg = "black",
                             bg = settings.bgColor,
-                            command = lambda: [changeColor("#99b3ff", "#99ffe6"), gui.clearScreen(taskBar.tbWidgets), gui.clearScreen(settings.widgetList), shopScreen(), taskBar.taskbar()])
+                            command = lambda: [changeColor("#99b3ff", "#99ffe6"), gui.clearScreen(taskBar.tbWidgets), gui.clearScreen(settings.widgetList), shopScreen(settings.currency), taskBar.taskbar()])
     optionOne.place(relx=.25, rely=.3,anchor= CENTER)
     settings.widgetList.append(optionOne)
 
@@ -85,7 +85,7 @@ def shopScreen(currency):
     optionTwo =tk.Button(text="Buy",
                             fg = "black",
                             bg = settings.bgColor,
-                            command = lambda: [changeColor("#4a6741", "#3f5a36"), gui.clearScreen(taskBar.tbWidgets), gui.clearScreen(settings.widgetList), shopScreen(), taskBar.taskbar()])
+                            command = lambda: [changeColor("#4a6741", "#3f5a36"), gui.clearScreen(taskBar.tbWidgets), gui.clearScreen(settings.widgetList), shopScreen(settings.currency), taskBar.taskbar()])
     optionTwo.place(relx=.75, rely=.3,anchor= CENTER)
     settings.widgetList.append(optionTwo)
 
@@ -111,7 +111,7 @@ def shopScreen(currency):
     optionThree =tk.Button(text="Buy",
                             fg = "black",
                             bg = settings.bgColor,
-                            command = lambda: [changeColor("#ffd800", "#ffbf00"), gui.clearScreen(taskBar.tbWidgets), gui.clearScreen(settings.widgetList), shopScreen(), taskBar.taskbar()])
+                            command = lambda: [changeColor("#ffd800", "#ffbf00"), gui.clearScreen(taskBar.tbWidgets), gui.clearScreen(settings.widgetList), shopScreen(settings.currency), taskBar.taskbar()])
     optionThree.place(relx=.25, rely=.55,anchor= CENTER)
     settings.widgetList.append(optionThree)
 
@@ -138,7 +138,7 @@ def shopScreen(currency):
     optionFour =tk.Button(text="Buy",
                             fg = "black",
                             bg = settings.bgColor,
-                            command = lambda: [changeColor("#969286", "#e3ded1"), gui.clearScreen(taskBar.tbWidgets), gui.clearScreen(settings.widgetList), shopScreen(), taskBar.taskbar()])
+                            command = lambda: [changeColor("#969286", "#e3ded1"), gui.clearScreen(taskBar.tbWidgets), gui.clearScreen(settings.widgetList), shopScreen(settings.currency), taskBar.taskbar()])
     optionFour.place(relx=.75, rely=.55,anchor= CENTER)
     settings.widgetList.append(optionFour)
 
@@ -146,6 +146,6 @@ def shopScreen(currency):
     resetColor =tk.Button(text="Reset Colours",
                             fg = "black",
                             bg = settings.bgColor,
-                            command = lambda: [changeColor("pink", "#ffe2e6"), gui.clearScreen(taskBar.tbWidgets), gui.clearScreen(settings.widgetList), shopScreen(), taskBar.taskbar()])
+                            command = lambda: [changeColor("pink", "#ffe2e6"), gui.clearScreen(taskBar.tbWidgets), gui.clearScreen(settings.widgetList), shopScreen(settings.currency), taskBar.taskbar()])
     resetColor.place(relx=.5, rely=.8,anchor= CENTER)
     settings.widgetList.append(resetColor)

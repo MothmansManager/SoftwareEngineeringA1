@@ -1,3 +1,4 @@
+import sqlite3, accountScreens
 #Global variable where widgets are stored, allows screen to be cleared/appended to.
 global widgetList
 widgetList = []
