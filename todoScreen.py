@@ -23,7 +23,7 @@ def questScreen(currency):
     greeting = tk.Label( text="Todays Quests!",
                         fg = "black",
                         bg = settings.bgColor,
-                        font = ("BubbleGum",25))
+                        font = ("Segoe UI Black",25))
     greeting.place(relx=.5, rely=.05,anchor= CENTER)
     settings.widgetList.append(greeting)
 

@@ -17,7 +17,7 @@ def completedQuests():
     completedTitle = tk.Label( text="Completed Quests!",
                         fg = "black",
                         bg = settings.bgColor,
-                        font = ("Segoe UI", 25))
+                        font = ("Segoe UI Black", 25))
     completedTitle.place(relx=.5, rely=.05,anchor= CENTER)
     settings.widgetList.append(completedTitle)
 

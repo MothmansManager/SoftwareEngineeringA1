@@ -51,7 +51,7 @@ def greetingWindow():
     greeting = tk.Label( text="Welcome to QuestIt!",
                         fg = "black",
                         bg = "pink",
-                        font = ("bubblegum",25))
+                        font = ("Segoe UI Black",25))
     greeting.place(x=138, y=100)
     settings.widgetList.append(greeting)
 
@@ -84,7 +84,7 @@ def createAccScreen():
     accountCreateHeader = tk.Label(text="Create Account",
                     fg = "black",
                     bg = "pink",
-                    font = ("BubbleGum",24))
+                    font = ("Segoe UI Black",24))
     accountCreateHeader.place(relx=.5, rely=.05,anchor= CENTER)
     settings.widgetList.append(accountCreateHeader)
 
