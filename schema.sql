@@ -16,4 +16,7 @@ VALUES
     ('Artist', "Start on a new Project", "Work on a new Original Character!!", "Do some anatmoy practice :)"),
     ('Reading', "Start reading a new book", "Read your favourite book/book series", "Write an analysis on the last book you read!"),
     ('Sports/Gym', "Go to the gym", 'Play your favouite sport', 'Get yourself some new sports gear/gym gear'),
-    ('Author', "Work on your manuscript", )
+    ('Author', "Work on your manuscript", "Review your last written work", "Get some feed back from your author friends!"),
+    ('Garden', "Weed the garden", "Buy new gardening tools", "Plant seeds"),
+    ('Crochet', "Make a hat", "Buy new yarn", "Start a new gift project"),
+    ('Dentist', "Organise Appointments", "Eat teeth", "Fight the tooth fairy");
