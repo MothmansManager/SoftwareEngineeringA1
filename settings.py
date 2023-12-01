@@ -1,24 +1,20 @@
 #Global variable where widgets are stored, allows screen to be cleared/appended to.
-global widgetList
 widgetList = []
-    
 
 #color of taskbar background, change this to edit it (hex) - NOT WORKING AS GLOBAL VAR
-global bgColor
 bgColor = "pink"
 
-global taskbarColor
+#variable for storing the background color
 taskbarColor = "#ffe2e6"
 
-global windowColor
+#variable for storing background window color
 windowColor = "pink"
 
-global currency
+#stores the current users currency
 currency = 0
 
 #test variable for making a task list
-global taskList
 taskList = ["Clean the Bathroom", "Do my Homework", "Walk the Dog", "YAdaYAda"]
 
-global completedTaskList
+#appends completed tasks from to do to this array for easy viewing and use by builder
 completedTaskList = []
