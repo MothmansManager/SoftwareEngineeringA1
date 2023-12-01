@@ -147,5 +147,5 @@ def shopScreen(currency):
                             fg = "black",
                             bg = settings.bgColor,
                             command = lambda: [changeColor("pink", "#ffe2e6"), gui.clearScreen(taskBar.tbWidgets), gui.clearScreen(settings.widgetList), shopScreen(settings.currency), taskBar.taskbar()])
-    resetColor.place(relx=.5, rely=.8,anchor= CENTER)
+    resetColor.place(relx=.5, rely=.85,anchor= CENTER)
     settings.widgetList.append(resetColor)
