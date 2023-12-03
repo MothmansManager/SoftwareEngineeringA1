@@ -52,7 +52,7 @@ def greetingWindow():
                         fg = "black",
                         bg = "pink",
                         font = ("Segoe UI Black",25))
-    greeting.place(x=138, y=100)
+    greeting.place(relx=0.5, rely=.05, anchor=CENTER)
     settings.widgetList.append(greeting)
 
     #C- Button to continue to profile set up
@@ -134,16 +134,19 @@ def createAccScreen():
     tag1.set("Select a Tag")
     tag1.place(relx=.50, rely=.35,anchor= CENTER)
     settings.widgetList.append(tag1)
+    tag1["state"] = "readonly"
 
     tag2 = ttk.Combobox(values = tagList)
     tag2.set("Select a Tag")
     tag2.place(relx=.50, rely=.4,anchor= CENTER)
     settings.widgetList.append(tag2)
+    tag2["state"] = "readonly"
 
     tag3 = ttk.Combobox(values = tagList)
     tag3.set("Select a Tag")
     tag3.place(relx=.50, rely=.45,anchor= CENTER)
     settings.widgetList.append(tag3)
+    tag3["state"] = "readonly"
 
     contButton = tk.Button(text="Submit",
                             fg = "black",
