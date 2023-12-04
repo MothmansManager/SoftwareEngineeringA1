@@ -19,7 +19,6 @@ def questScreen(currency):
     cashCounter.place(relx=.9, rely=.05,anchor= CENTER)
     settings.widgetList.append(cashCounter)
 
-
     #Page header
     greeting = tk.Label( text="Todays Quests!",
                         fg = "black",
