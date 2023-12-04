@@ -12,7 +12,7 @@ tbWidgets = []
 """
 This creates a nav bar at the bottom of each page outside of account creation/set-up
 """
-def taskbar():
+def taskbar(currency):
     
     #creating the taskbar background as a blank label with color bg
     bgBorder = tk.Label(text = "                                                                                                            ",
@@ -26,7 +26,7 @@ def taskbar():
     checkButton = tk.Button(image = check, 
                          bg=settings.taskbarColor,
                          bd = 0,
-                         command = lambda : [gui.clearScreen(settings.widgetList), completedQuestsScreen.completedQuests()])
+                         command = lambda : [gui.clearScreen(settings.widgetList), completedQuestsScreen.completedQuests(currency)])
     tbWidgets.append(checkButton)
     checkButton.image = check
     checkButton.place(relx=.15, rely=.92,anchor= CENTER)
