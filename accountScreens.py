@@ -231,7 +231,7 @@ def submitAccount(username, password, name):
             settings.widgetList.append(plength)
         else:
             # Insert the new user into the database
-            cursor.execute("INSERT INTO users (user_id, password, currency) VALUES (?, ?, ?)", (username, password, 0))
+            cursor.execute("INSERT INTO users (user_id, password, currency, name) VALUES (?, ?, ?, ?)", (username, password, 0, name))
             conn.commit()
             cursor.execute('SELECT currency FROM users WHERE user_id=?', (username,))
             settings.currency = cursor.fetchone()
@@ -246,8 +246,72 @@ def submitAccount(username, password, name):
             # Close the database connection
     conn.close()
 
+def loginToAccount(password, username):
+
+    logged_in = False
+
+    global conn
+
+    # Connect to the database
+    conn = sqlite3.connect("userDetails.db")
+    cursor = conn.cursor()
+
+    if not (validate_entry(password)):
+    # Display an error message if any of the required fields are empty
+        error_label = tk.Label(text="Please fill the required field",
+                            fg="red",
+                            bg="pink",
+                            font=("Segoe UI", 12))
+        error_label.place(relx=.5, rely=.55, anchor=CENTER)
+        settings.widgetList.append(error_label)
+    else:    
+        # Connect to the database
+        conn = sqlite3.connect("userDetails.db")
+        cursor = conn.cursor()
+
+        cursor.execute('SELECT password FROM users WHERE user_id=?', (username))
+        correctPass = cursor.fetchone()
+
+        if correctPass and correctPass[0] == password:
+            # Set the account_created variable to True
+            logged_in = True
+            cursor.execute('SELECT currency FROM users WHERE user_id=?', (username))
+            settings.currency = cursor.fetchone()
+
+            cursor.execute('SELECT name from users WHERE user_id=?', (username))
+            name = cursor.fetchone()
+
+            if logged_in == True:    
+                gui.clearScreen(settings.widgetList)
+                todoScreen.questScreen(settings.currency)
+                taskBar.taskbar()
+        else:
+            incorrect = tk.Label(text="This password is incorrect",
+                            fg="red",
+                            bg="pink",
+                            font=("Segoe UI", 12))
+            incorrect.place(relx=.5, rely=.55, anchor=CENTER)
+            settings.widgetList.append(incorrect)
+            # Close the database connection
+    conn.close()
+
             
-def login(username):
+def login(user_id):
+
+    conn = sqlite3.connect("userDetails.db")
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT name FROM users WHERE user_id=?', (user_id))
+    name = cursor.fetchone()    
+
+    name = str(name).replace('(', '').replace("'", '').replace(',', '').replace(')', '')
+
+    displayName = tk.Label(text=f"Welcome back, {name}!",
+                           fg="black",
+                           bg="pink",
+                           font=("Segoe UI Black", 25))
+    displayName.place(relx=.5, rely=0.3,anchor=CENTER)
+    settings.widgetList.append(displayName)
 
     loginHeader = tk.Label(text="Login",
                 fg = "black",
@@ -256,7 +320,7 @@ def login(username):
     loginHeader.place(relx=.5, rely=.05,anchor= CENTER)
     settings.widgetList.append(loginHeader)
 
-    username = tk.Label(text=username,
+    username = tk.Label(text=user_id,
                     fg = "black",
                     bg = "pink",
                     font = ("Segoe UI",12))
@@ -278,6 +342,9 @@ def login(username):
                         fg = "black",
                         bg = "pink",
                         font = ("Segoe UI",10),
-                        command = lambda: submitAccount(passwordEntry.get()))
+                        command = lambda: loginToAccount(passwordEntry.get(), user_id))
     contButton.place(relx=.50, rely=.5,anchor= CENTER)
     settings.widgetList.append(contButton)
+
+    conn.close()
+
