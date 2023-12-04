@@ -88,22 +88,22 @@ def createAccScreen():
     accountCreateHeader.place(relx=.5, rely=.05,anchor= CENTER)
     settings.widgetList.append(accountCreateHeader)
 
-    username = tk.Label(text="Username:",
+    username = tk.Label(text="Username(2-8 Characters):",
                         fg = "black",
                         bg = "pink",
                         font = ("Segoe UI",12))
-    username.place(relx=.30, rely=.15, anchor=CENTER)
+    username.place(relx=.4, rely=.15, anchor=E)
     settings.widgetList.append(username)
 
     usernameEntry = tk.Entry()
     settings.widgetList.append(usernameEntry)
     usernameEntry.place(relx=.50, rely=.15,anchor= CENTER)
     
-    name = tk.Label(text="First Name:",
+    name = tk.Label(text="First Name(3-12):",
                         fg = "black",
                         bg = "pink",
                         font = ("Segoe UI",12))
-    name.place(relx=.30, rely=.2,anchor= CENTER)
+    name.place(relx=.4, rely=.2,anchor= E)
     settings.widgetList.append(name)
 
     #C- Entry box for user to input their name for later use
@@ -111,11 +111,11 @@ def createAccScreen():
     settings.widgetList.append(nameEntry)
     nameEntry.place(relx=.50, rely=.2,anchor= CENTER)
 
-    password = tk.Label(text="Password:",
+    password = tk.Label(text="Password(4-10):",
                         fg = "black",
                         bg = "pink",
                         font = ("Segoe UI",12))
-    password.place(relx=.30, rely=.25, anchor=CENTER)
+    password.place(relx=.4, rely=.25, anchor=E)
     settings.widgetList.append(password)
 
     passwordEntry = tk.Entry(show="*")
@@ -165,6 +165,15 @@ def createAccScreen():
 def validate_entry(entry):
     return len(entry) > 0
 
+def validate_name_len(entry):
+    return (12>=len(entry) >=3)
+
+def validate_username_len(entry):
+    return (8>=len(entry)>=2)
+
+def validate_password_len(entry):
+    return (10>=len(entry)>=4)
+
 def submitAccount(username, password, name):
     global conn
 
@@ -190,29 +199,47 @@ def submitAccount(username, password, name):
         cursor.execute("SELECT * FROM users WHERE user_id=?", (username,))
         existing_user = cursor.fetchone()
         if existing_user:
-            existing = tk.Label(text="This username already exists. Please choose another one or login",
+            existing = tk.Label(text="                      This username already exists. Please choose another one or login                      ",
                             fg="red",
                             bg="pink",
                             font=("Segoe UI", 12))
             existing.place(relx=.5, rely=.6, anchor=CENTER)
             settings.widgetList.append(existing)
+
+        elif not validate_name_len(name):
+            namelen = tk.Label(text="                      Name must be between 3 and 12 characters.                      ",
+                fg="red",
+                bg="pink",
+                font=("Segoe UI", 12))
+            namelen.place(relx=.5, rely=.6, anchor=CENTER)
+            settings.widgetList.append(namelen)
+            
+        elif not validate_username_len(username):
+            userlength = tk.Label(text="                      Username must be between 8 and 2 characters.                      ",
+                fg="red",
+                bg="pink",
+                font=("Segoe UI", 12))
+            userlength.place(relx=.5, rely=.6, anchor=CENTER)
+            settings.widgetList.append(userlength)
+
+        elif not validate_password_len(password):
+            plength = tk.Label(text="                      Password must be between 4 and 10 characters.                      ",
+                fg="red",
+                bg="pink",
+                font=("Segoe UI", 12))
+            plength.place(relx=.5, rely=.6, anchor=CENTER)
+            settings.widgetList.append(plength)
         else:
             # Insert the new user into the database
             cursor.execute("INSERT INTO users (user_id, password, currency) VALUES (?, ?, ?)", (username, password, 0))
             conn.commit()
-            account_created_label = tk.Label(text="You have successfully signed up!! Please login",
-                                            fg="black",
-                                            bg="pink",
-                                            font=("Segoe UI", 12))
-            account_created_label.place(relx=.6, rely=.3, anchor=CENTER)
-            settings.widgetList.append(account_created_label)
             cursor.execute('SELECT currency FROM users WHERE user_id=?', (username,))
             settings.currency = cursor.fetchone()
 
             # Set the account_created variable to True
             account_created = True
     
-            if account_created == True:          
+            if account_created == True:    
                 gui.clearScreen(settings.widgetList)
                 todoScreen.questScreen(settings.currency)
                 taskBar.taskbar()
