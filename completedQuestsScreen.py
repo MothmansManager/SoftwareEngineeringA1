@@ -4,10 +4,10 @@ from tkinter import ttk
 
 import gui, todoScreen, taskBar, settings, builder
 
-def completedQuests():
-
+def completedQuests(currency):
+    modified_currency = str(currency).replace('(', '$').replace(',', '').replace(')', '')
     #----INSERT FUNCTION TO PULL CURRENCY AMOUNT FROM DB----
-    cashCounter = tk.Label( text = "$25",
+    cashCounter = tk.Label( text = f'{modified_currency}',
                            fg = "black",
                            bg = settings.bgColor,
                            font= ("Segoe UI Black", 25))

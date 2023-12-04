@@ -284,7 +284,7 @@ def loginToAccount(password, username):
             if logged_in == True:    
                 gui.clearScreen(settings.widgetList)
                 todoScreen.questScreen(settings.currency)
-                taskBar.taskbar()
+                taskBar.taskbar(settings.currency)
         else:
             incorrect = tk.Label(text="This password is incorrect",
                             fg="red",
