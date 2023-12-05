@@ -247,14 +247,16 @@ def submitAccount(username, password, name):
             # Insert the new user into the database
             cursor.execute("INSERT INTO users (user_id, password, currency, name) VALUES (?, ?, ?, ?)", (username, password, 0, name))
             conn.commit()
+            cursor.execute('SELECT currency FROM users WHERE user_id=?', (username,))
+            settings.currency = cursor.fetchone()
 
             # Set the account_created variable to True
             account_created = True
     
             if account_created == True:    
                 settings.clearScreen(settings.widgetList)
-                todoScreen.questScreen(settings.getCurrency())
-                taskBar.taskbar(settings.getCurrency())
+                todoScreen.questScreen(settings.currency)
+                taskBar.taskbar(settings.currency)
             # Close the database connection
     conn.close()
 
@@ -287,14 +289,16 @@ def loginToAccount(password, username):
         if correctPass and correctPass[0] == password:
             # Set the account_created variable to True
             logged_in = True
+            cursor.execute('SELECT currency FROM users WHERE user_id=?', (username))
+            settings.currency = cursor.fetchone()
 
             cursor.execute('SELECT name from users WHERE user_id=?', (username))
             name = cursor.fetchone()
 
             if logged_in == True:    
                 settings.clearScreen(settings.widgetList)
-                todoScreen.questScreen(settings.getCurrency())
-                taskBar.taskbar(settings.getCurrency())
+                todoScreen.questScreen(settings.currency)
+                taskBar.taskbar(settings.currency)
         else:
             incorrect = tk.Label(text="This password is incorrect",
                             fg="red",

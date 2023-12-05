@@ -46,3 +46,33 @@ def completedBuilder(completedTaskList):
         ypos +=.05
 
     return
+
+def shopBuilder(shopDict):
+
+    
+    optionOnetxt = tk.Label( text="Ice King",
+                        fg = "black",
+                        bg = settings.bgColor,
+                        font = ("Segoe UI", 13))
+    optionOnetxt.place(relx=.25, rely=.2,anchor= CENTER)
+    settings.widgetList.append(optionOnetxt)
+
+    option1Color1 = tk.Label( text="      ",
+                        bg = "#99b3ff",
+                        font = ("segoue ui", 30))
+    option1Color1.place(relx=.20, rely=.25,anchor= CENTER)
+    settings.widgetList.append(option1Color1)
+
+    option1Color2 = tk.Label( text="      ",
+                        bg = "#99ffe6",
+                        font = ("segoue ui", 30))
+    option1Color2.place(relx=.32, rely=.25,anchor= CENTER)
+    settings.widgetList.append(option1Color2)
+
+    optionOne =tk.Button(text="Buy",
+                            fg = "black",
+                            bg = settings.bgColor,
+                            command = lambda: [changeColor("#99b3ff", "#99ffe6"), settings.clearScreen(taskBar.tbWidgets), settings.clearScreen(settings.widgetList), shopScreen(settings.currency), taskBar.taskbar()])
+    optionOne.place(relx=.25, rely=.3,anchor= CENTER)
+    settings.widgetList.append(optionOne)
+    return
