@@ -4,7 +4,7 @@ from tkinter import ttk
 import sqlite3, settings
 #import mysql.connector #must be installed "pip install mysql-connector-python"
 
-import gui, todoScreen, taskBar, settings
+import todoScreen, taskBar, settings
 
 conn = sqlite3.connect("userDetails.db")
 cursor = conn.cursor()
@@ -42,7 +42,7 @@ def greetingWindow():
                                         fg = "black",
                                         bg = "pink",
                                         font = ("Segoe UI", 9),
-                                        command = lambda user_id = user_id: [gui.clearScreen(settings.widgetList), login(user_id)])
+                                        command = lambda user_id = user_id: [settings.clearScreen(settings.widgetList), login(user_id)])
                 existingUser.place(relx=0.5, y=yPixel, anchor=CENTER)
                 settings.widgetList.append(existingUser)
                 yPixel += 35
@@ -59,7 +59,7 @@ def greetingWindow():
     contButton = tk.Button(text="Create Account",
                             fg = "black",
                             bg = "pink",
-                            command = lambda: [gui.clearScreen(settings.widgetList), createAccScreen()])
+                            command = lambda: [settings.clearScreen(settings.widgetList), createAccScreen()])
     contButton.place(x=250, y=200)
     settings.widgetList.append(contButton)
 
@@ -67,7 +67,7 @@ def greetingWindow():
     skipButton = tk.Button(text="SKIP",
                             fg = "black",
                             bg = "pink",
-                            command = lambda: [gui.clearScreen(settings.widgetList), todoScreen.questScreen(0), taskBar.taskbar()])
+                            command = lambda: [settings.clearScreen(settings.widgetList), todoScreen.questScreen(0), taskBar.taskbar()])
     skipButton.place(relx=.5, rely=.9, anchor = CENTER)
     settings.widgetList.append(skipButton)
 
@@ -240,9 +240,9 @@ def submitAccount(username, password, name):
             account_created = True
     
             if account_created == True:    
-                gui.clearScreen(settings.widgetList)
+                settings.clearScreen(settings.widgetList)
                 todoScreen.questScreen(settings.currency)
-                taskBar.taskbar()
+                taskBar.taskbar(settings.currency)
             # Close the database connection
     conn.close()
 
@@ -282,7 +282,7 @@ def loginToAccount(password, username):
             name = cursor.fetchone()
 
             if logged_in == True:    
-                gui.clearScreen(settings.widgetList)
+                settings.clearScreen(settings.widgetList)
                 todoScreen.questScreen(settings.currency)
                 taskBar.taskbar(settings.currency)
         else:

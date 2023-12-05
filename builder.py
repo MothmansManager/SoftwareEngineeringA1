@@ -1,4 +1,4 @@
-import settings, gui, timerRun, threading
+import settings, timerRun, threading
 import tkinter as tk
 from tkinter import *
 
@@ -72,7 +72,7 @@ def shopBuilder(shopDict):
     optionOne =tk.Button(text="Buy",
                             fg = "black",
                             bg = settings.bgColor,
-                            command = lambda: [changeColor("#99b3ff", "#99ffe6"), gui.clearScreen(taskBar.tbWidgets), gui.clearScreen(settings.widgetList), shopScreen(settings.currency), taskBar.taskbar()])
+                            command = lambda: [changeColor("#99b3ff", "#99ffe6"), settings.clearScreen(taskBar.tbWidgets), settings.clearScreen(settings.widgetList), shopScreen(settings.currency), taskBar.taskbar()])
     optionOne.place(relx=.25, rely=.3,anchor= CENTER)
     settings.widgetList.append(optionOne)
     return

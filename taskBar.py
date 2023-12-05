@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import *
-from tkinter import ttk
 import settings
 #import mysql.connector
 
@@ -26,7 +25,7 @@ def taskbar(currency):
     checkButton = tk.Button(image = check, 
                          bg=settings.taskbarColor,
                          bd = 0,
-                         command = lambda : [gui.clearScreen(settings.widgetList), completedQuestsScreen.completedQuests(currency)])
+                         command = lambda : [settings.clearScreen(settings.widgetList), completedQuestsScreen.completedQuests(currency)])
     tbWidgets.append(checkButton)
     checkButton.image = check
     checkButton.place(relx=.15, rely=.92,anchor= CENTER)
@@ -43,7 +42,7 @@ def taskbar(currency):
     homeButton = tk.Button(image = home, 
                          bg=settings.taskbarColor,
                          bd = 0,
-                         command = lambda:  [gui.clearScreen(settings.widgetList), todoScreen.questScreen(settings.currency)])
+                         command = lambda:  [settings.clearScreen(settings.widgetList), todoScreen.questScreen(settings.currency)])
     homeButton.image = home
     homeButton.place(relx=.5, rely=.92,anchor= CENTER)
     tbWidgets.append(homeButton)
@@ -60,7 +59,7 @@ def taskbar(currency):
     shopButton = tk.Button(image = shop, 
                          bg=settings.taskbarColor,
                          bd = 0,
-                         command = lambda:  [gui.clearScreen(settings.widgetList), shopScreen.shopScreen(settings.currency)])
+                         command = lambda:  [settings.clearScreen(settings.widgetList), shopScreen.shopScreen(settings.currency)])
     shopButton.image = shop
     shopButton.place(relx=.85, rely=.92,anchor= CENTER)
     tbWidgets.append(shopButton)

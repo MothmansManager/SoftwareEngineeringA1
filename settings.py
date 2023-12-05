@@ -18,3 +18,9 @@ taskList = ["Clean the Bathroom", "Do my Homework", "Walk the Dog", "YAdaYAda"]
 
 #appends completed tasks from to do to this array for easy viewing and use by builder
 completedTaskList = []
+
+def clearScreen(widgets):
+    for widget in widgets:
+        widget.destroy()
+    
+    widgets = []

@@ -2,11 +2,11 @@
 This file contains the code relating to the graphical user interface of the application.
 This includes things like window, window size, buttons, text, images, etc.
 """
-import settings
+import settings, accountScreens
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
-from accountScreens import greetingWindow
+
 
 
 root = tk.Tk()
@@ -21,17 +21,13 @@ def windowOut():
     root.resizable(False,False)
 
     #C- Calls Greeting Screen to display
-    greetingWindow()
+    accountScreens.greetingWindow()
     
 
     #C- The main loop for the window application
     root.mainloop()
 
-def clearScreen(widgets):
-    for widget in widgets:
-        widget.destroy()
-    
-    widgets = []
+
     
 
 
