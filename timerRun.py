@@ -8,7 +8,7 @@ import time, settings, gui
 
 
 
-def taskTimer():
+def taskTimer(taskText):
 
     hours = 1
     global times
@@ -45,7 +45,7 @@ def taskTimer():
                             fg = "Black",
                             bg = settings.bgColor,
                             font = ("Segoe UI", 12),
-                            command = lambda : [stoppingFunc()] )
+                            command = lambda : [stoppingFunc(), settings.completedTaskList.append(taskText), gui.root.update()] )
         stopTimer.place(relx=.5, rely=.75,anchor= CENTER)
         settings.widgetList.append(stopTimer)
 

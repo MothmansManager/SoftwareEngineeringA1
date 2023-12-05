@@ -21,7 +21,7 @@ def taskBuilder(taskList):
                                 fg = "black",
                                 bg = settings.bgColor,
                                 font = ("Segoe UI",10),
-                                command = lambda taskText = task: [threading.Thread(target = timerRun.taskTimer, daemon = True).start(),settings.completedTaskList.append(taskText)])
+                                command = lambda taskText = task: [threading.Thread(target = timerRun.taskTimer(task), daemon = True).start()])
         accept.place(relx=xpos, rely=ypos,anchor= CENTER)
         settings.widgetList.append(accept)
 
