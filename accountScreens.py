@@ -12,7 +12,7 @@ cursor = conn.cursor()
 cursor.execute(
     '''CREATE TABLE IF NOT EXISTS users (
         user_id TEXT PRIMARY KEY NOT NULL,
-        password INTEGER NOT NULL,
+        password TEXT NOT NULL,
         name TEXT,
         tag1 TEXT,
         tag2 TEXT,
