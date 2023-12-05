@@ -1,6 +1,3 @@
-import sqlite3
-from accountScreens import *
-
 #Global variable where widgets are stored, allows screen to be cleared/appended to.
 widgetList = []
 
@@ -14,11 +11,7 @@ taskbarColor = "#ffe2e6"
 windowColor = "pink"
 
 #stores the current users currency
-conn = sqlite3.connect("userDetails.db")
-cursor = conn.cursor()
-cursor.execute("SELECT currency FROM users WHERE user_id=?", (str(user.get_username),))
-currency = cursor.fetchone()
-
+currency = 0
 
 #test variable for making a task list
 taskList = ["Clean the Bathroom", "Do my Homework", "Walk the Dog", "YAdaYAda"]

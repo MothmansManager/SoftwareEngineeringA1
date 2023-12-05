@@ -23,18 +23,6 @@ cursor.execute(
 conn.commit()
 conn.close()
 
-class User:
-    def __init__(self, username):
-        self._username = username
-
-    def set_username(self, value):
-        self.username = value
-
-    def get_username(self):
-        return self.username
-    
-user = User("placeholder")
-    
 #C - The Screen to be displayed when the app is first opened
 def greetingWindow():
     def display_usernames():
@@ -89,6 +77,8 @@ def greetingWindow():
 #C- Screen to display upon first launch of the program to create a user account with associated names and "generative"(used to create recommended tasks) tags
 def createAccScreen():
 
+    account_created=False
+
     tagList = ["Student", "Professor", "Pet Owner", "Dentist"]
 
     accountCreateHeader = tk.Label(text="Create Account",
@@ -98,12 +88,12 @@ def createAccScreen():
     accountCreateHeader.place(relx=.5, rely=.05,anchor= CENTER)
     settings.widgetList.append(accountCreateHeader)
 
-    usernameField = tk.Label(text="Username(2-8 Characters):",
+    username = tk.Label(text="Username(2-8 Characters):",
                         fg = "black",
                         bg = "pink",
                         font = ("Segoe UI",12))
-    usernameField.place(relx=.4, rely=.15, anchor=E)
-    settings.widgetList.append(usernameField)
+    username.place(relx=.4, rely=.15, anchor=E)
+    settings.widgetList.append(username)
 
     usernameEntry = tk.Entry()
     settings.widgetList.append(usernameEntry)
@@ -166,13 +156,11 @@ def createAccScreen():
     contButton.place(relx=.50, rely=.5,anchor= CENTER)
     settings.widgetList.append(contButton)
 
-    user = User("usernameEntry.get()")
-
     username = usernameEntry.get()
     password = passwordEntry.get()
     name = nameEntry.get()
 
-    return user 
+    return account_created
 
 def validate_entry(entry):
     return len(entry) > 0
@@ -188,8 +176,6 @@ def validate_password_len(entry):
 
 def submitAccount(username, password, name):
     global conn
-
-    account_created=False
 
     # Connect to the database
     conn = sqlite3.connect("userDetails.db")
