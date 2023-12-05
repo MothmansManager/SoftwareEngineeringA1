@@ -9,9 +9,8 @@ cursor = conn.cursor()
 result = cursor.fetchone()
 
 def questScreen(currency):
-    modified_currency = str(currency).replace('(', '$').replace(',', '').replace(')', '')
     #Displays current credit amount at top right
-    cashCounter = tk.Label( text = f'{modified_currency}',
+    cashCounter = tk.Label( text = currency,
                            fg = "black",
                            bg = settings.bgColor,
                            font= ("Segoe UI Black", 25))

@@ -14,10 +14,26 @@ taskbarColor = "#ffe2e6"
 windowColor = "pink"
 
 #stores the current users currency
-conn = sqlite3.connect("userDetails.db")
-cursor = conn.cursor()
-cursor.execute("SELECT currency FROM users WHERE user_id=?", (str(user.get_username),))
-currency = cursor.fetchone()
+# currency = str(currency).replace('(', '$').replace(',', '').replace(')', '')
+
+def gainMoney(currency):
+    currency = int(currency[0])
+    currency +=5
+    currency = str(currency)
+    conn = sqlite3.connect("userDetails.db")
+    cursor = conn.cursor()
+    cursor.execute("UPDATE users SET currency = ? WHERE user_id=?", (currency, str(user.get_username),))
+    conn.commit()
+    conn.close()
+
+def getCurrency():
+    conn = sqlite3.connect("userDetails.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT currency FROM users WHERE user_id=?", (str(user.get_username),))
+    currency = cursor.fetchone()
+    conn.close()
+
+    return currency
 
 
 #test variable for making a task list
@@ -31,3 +47,5 @@ def clearScreen(widgets):
         widget.destroy()
     
     widgets = []
+
+
