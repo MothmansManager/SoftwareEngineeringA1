@@ -14,7 +14,7 @@ windowColor = "pink"
 currency = 0
 
 #test variable for making a task list
-taskList = ["Clean the Bathroom", "Do my Homework", "Walk the Dog", "YAdaYAda"]
+taskList = ["Do something you enjoy", "Hang out with your friends!", "Have some time to yourself", "Watch your favourite show!"]
 
 #appends completed tasks from to do to this array for easy viewing and use by builder
 completedTaskList = []

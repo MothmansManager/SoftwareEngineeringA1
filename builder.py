@@ -1,6 +1,8 @@
 import settings, timerRun, threading
 import tkinter as tk
 from tkinter import *
+import random, settings, sqlite3
+from tagsAndTasks import tagsArray
 
 #Used to display all the generated tasks on the todoScreen page
 def taskBuilder(taskList):
@@ -28,6 +30,43 @@ def taskBuilder(taskList):
         ypos += .05
 
     return
+
+def compareTags():
+    from accountScreens import checkTags
+    common = []
+    tags = checkTags()
+    array = tagsArray()
+    for tag in tags:
+        if tag in array:
+            common.append(tag)
+    return common
+
+def recommendedTasks():
+    recommendation = []
+    common = compareTags()
+    conn = sqlite3.connect("tags.db")
+    cursor = conn.cursor()
+    for tag in common:
+        cursor.execute("SELECT task1, task2, task3 from tags WHERE tagName=?", tag)
+        recommendations = cursor.fetchall()
+    for i in recommendations:
+        recommendation.append[i]
+    
+    task = random.choice(recommendation)
+    task1 = tk.Label(text = task,
+                        fg = "black",
+                        bg = settings.bgColor,
+                        font = ("Segoe UI",14))
+    task1.place(relx=.5, rely=.5,anchor=CENTER)
+    settings.widgetList.append(task1)
+    accept1 = tk.Button(text="Accept",
+                        fg = "black",
+                        bg = settings.bgColor,
+                        font = ("Segoe UI",10),
+                        command = lambda taskText = task: [threading.Thread(target = timerRun.taskTimer(task), daemon = True).start()])
+    accept1.place(relx=.5, rely=.55,anchor= CENTER)
+    settings.widgetList.append(accept1)
+
 
 #modified version of above to do similar for the completed tasks page
 def completedBuilder(completedTaskList):

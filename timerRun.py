@@ -41,7 +41,7 @@ def taskTimer(taskText):
             hrs.place(relx=.5, rely=.7,anchor= CENTER)
             settings.widgetList.append(hrs)
             
-        stopTimer = tk.Button( text = "Stop Timer",
+        stopTimer = tk.Button( text = "Complete Task",
                             fg = "Black",
                             bg = settings.bgColor,
                             font = ("Segoe UI", 12),

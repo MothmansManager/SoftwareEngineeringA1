@@ -5,6 +5,7 @@ import sqlite3, settings
 #import mysql.connector #must be installed "pip install mysql-connector-python"
 
 import todoScreen, taskBar, settings
+from tagsAndTasks import tagsArray
 
 conn = sqlite3.connect("userDetails.db")
 cursor = conn.cursor()
@@ -77,9 +78,7 @@ def greetingWindow():
 #C- Screen to display upon first launch of the program to create a user account with associated names and "generative"(used to create recommended tasks) tags
 def createAccScreen():
 
-    account_created=False
-
-    tagList = ["Student", "Professor", "Pet Owner", "Dentist"]
+    tags = tagsArray()
 
     accountCreateHeader = tk.Label(text="Create Account",
                     fg = "black",
@@ -130,19 +129,19 @@ def createAccScreen():
     tagTitle.place(relx=.5, rely=.3,anchor= CENTER)
     settings.widgetList.append(tagTitle)
 
-    tag1 = ttk.Combobox(values = tagList)
+    tag1 = ttk.Combobox(values = tags)
     tag1.set("Select a Tag")
     tag1.place(relx=.50, rely=.35,anchor= CENTER)
     settings.widgetList.append(tag1)
     tag1["state"] = "readonly"
 
-    tag2 = ttk.Combobox(values = tagList)
+    tag2 = ttk.Combobox(values = tags)
     tag2.set("Select a Tag")
     tag2.place(relx=.50, rely=.4,anchor= CENTER)
     settings.widgetList.append(tag2)
     tag2["state"] = "readonly"
 
-    tag3 = ttk.Combobox(values = tagList)
+    tag3 = ttk.Combobox(values = tags)
     tag3.set("Select a Tag")
     tag3.place(relx=.50, rely=.45,anchor= CENTER)
     settings.widgetList.append(tag3)
@@ -152,7 +151,7 @@ def createAccScreen():
                             fg = "black",
                             bg = "pink",
                             font = ("Segoe UI",10),
-                            command = lambda: submitAccount(usernameEntry.get(), passwordEntry.get(), nameEntry.get()))
+                            command = lambda: submitAccount(usernameEntry.get(), passwordEntry.get(), nameEntry.get(), tag1.get(), tag2.get(), tag3.get()))
     contButton.place(relx=.50, rely=.5,anchor= CENTER)
     settings.widgetList.append(contButton)
 
@@ -160,7 +159,19 @@ def createAccScreen():
     password = passwordEntry.get()
     name = nameEntry.get()
 
-    return account_created
+    return username
+
+def checkTags(username):
+    userTag = []
+    conn = sqlite3.connect("userDetails.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT tag1, tag2, tag3, FROM users where user_id=?", username)
+    rows = cursor.fetchall()
+
+    for row in rows:
+        userTag.append(list(row))
+    return userTag
+
 
 def validate_entry(entry):
     return len(entry) > 0
@@ -174,8 +185,10 @@ def validate_username_len(entry):
 def validate_password_len(entry):
     return (10>=len(entry)>=4)
 
-def submitAccount(username, password, name):
+def submitAccount(username, password, name, tag1, tag2, tag3):
     global conn
+
+    account_created=False
 
     # Connect to the database
     conn = sqlite3.connect("userDetails.db")
@@ -231,7 +244,7 @@ def submitAccount(username, password, name):
             settings.widgetList.append(plength)
         else:
             # Insert the new user into the database
-            cursor.execute("INSERT INTO users (user_id, password, currency, name) VALUES (?, ?, ?, ?)", (username, password, 0, name))
+            cursor.execute("INSERT INTO users (user_id, password, currency, name, tag1, tag2, tag3) VALUES (?, ?, ?, ?, ?, ?, ?)", (username, password, 0, name, tag1, tag2, tag3))
             conn.commit()
             cursor.execute('SELECT currency FROM users WHERE user_id=?', (username,))
             settings.currency = cursor.fetchone()
