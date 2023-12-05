@@ -215,7 +215,7 @@ def submitAccount(username, password, name):
             settings.widgetList.append(namelen)
             
         elif not validate_username_len(username):
-            userlength = tk.Label(text="                      Username must be between 8 and 2 characters.                      ",
+            userlength = tk.Label(text="                      Username must be between 2 and 8 characters.                      ",
                 fg="red",
                 bg="pink",
                 font=("Segoe UI", 12))
